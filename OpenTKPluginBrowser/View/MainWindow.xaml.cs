@@ -15,15 +15,15 @@ namespace OpenTKPluginBrowser
 	public partial class MainWindow : Window
 	{
 		private readonly IEnumerable<IPlugin> _plugins;
-		private readonly OpenGLContext _openGL;
+		//private readonly OpenGLContext _openGL;
 
 		public MainWindow()
 		{
 			InitializeComponent();
-			_openGL = new OpenGLContext(4, 5, contextProfile:OpenTK.Windowing.Common.ContextProfile.Compatability);
+			//_openGL = new OpenGLContext(4, 5, contextProfile:OpenTK.Windowing.Common.ContextProfile.Compatability);
 			var settings = new GLWpfControlSettings
 			{
-				ContextToUse = _openGL.Context,
+				//ContextToUse = _openGL.Context,
 				MajorVersion = 4,
 				MinorVersion = 5,
 				GraphicsProfile = OpenTK.Windowing.Common.ContextProfile.Compatability,

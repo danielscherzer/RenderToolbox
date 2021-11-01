@@ -11,10 +11,10 @@ namespace OpenTKPluginBrowser
 		public static IEnumerable<IPlugin> LoadPlugins(string assemblyFilePath)
 		{
 			Console.WriteLine($"Loading commands from: {assemblyFilePath}");
-			Assembly pluginAssembly = Assembly.LoadFile(assemblyFilePath);
+			//Assembly pluginAssembly = Assembly.LoadFile(assemblyFilePath);
 
-			//PluginLoadContext loadContext = new PluginLoadContext(pluginFilePath);
-			//Assembly pluginAssembly = loadContext.LoadFromAssemblyPath(pluginFilePath);
+			PluginLoadContext loadContext = new PluginLoadContext(assemblyFilePath);
+			Assembly pluginAssembly = loadContext.LoadFromAssemblyPath(assemblyFilePath);
 
 			return CreateInstancesOf<IPlugin>(pluginAssembly);
 		}
