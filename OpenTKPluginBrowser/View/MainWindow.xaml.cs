@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 
@@ -16,12 +15,15 @@ namespace OpenTKPluginBrowser
 	public partial class MainWindow : Window
 	{
 		private readonly IEnumerable<IPlugin> _plugins;
+		private readonly OpenGLContext _openGL;
 
 		public MainWindow()
 		{
 			InitializeComponent();
+			_openGL = new OpenGLContext(4, 5, contextProfile:OpenTK.Windowing.Common.ContextProfile.Compatability);
 			var settings = new GLWpfControlSettings
 			{
+				ContextToUse = _openGL.Context,
 				MajorVersion = 4,
 				MinorVersion = 5,
 				GraphicsProfile = OpenTK.Windowing.Common.ContextProfile.Compatability,
@@ -34,43 +36,7 @@ namespace OpenTKPluginBrowser
 				// Paths to plugins to load.
 				@"D:\Daten\Visual Studio 2019\Projects\OpenTKPluginBrowser\Triangle\bin\Debug\triangle.dll"
 			};
-			_plugins = pluginPaths.SelectMany(pluginPath =>
-			{
-				Assembly pluginAssembly = LoadPlugin(pluginPath);
-				return CreateCommands(pluginAssembly);
-			}).ToList();
-		}
-
-		private static IEnumerable<IPlugin> CreateCommands(Assembly pluginAssembly)
-		{
-			int count = 0;
-
-			foreach (Type type in pluginAssembly.GetTypes())
-			{
-				if (typeof(IPlugin).IsAssignableFrom(type))
-				{
-					if (Activator.CreateInstance(type) is IPlugin plugin)
-					{
-						count++;
-						yield return plugin;
-					}
-				}
-			}
-
-			if (count == 0)
-			{
-				string availableTypes = string.Join(",", pluginAssembly.GetTypes().Select(t => t.FullName));
-				throw new ApplicationException(
-					$"Can't find any type which implements {nameof(IPlugin)} in {pluginAssembly} from {pluginAssembly.Location}.\n" +
-					$"Available types: {availableTypes}");
-			}
-		}
-
-		private Assembly LoadPlugin(string pluginPath)
-		{
-			string pluginLocation = pluginPath;
-			Console.WriteLine($"Loading commands from: {pluginLocation}");
-			return Assembly.LoadFile(pluginPath);
+			_plugins = pluginPaths.SelectMany(PluginLoader.LoadPlugins).ToList();
 		}
 
 		private void OpenTkControl_OnRender(TimeSpan delta)
