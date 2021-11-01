@@ -1,9 +1,13 @@
+using OpenTK.Audio.OpenAL;
 using OpenTK.Wpf;
 using PluginBase;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.Loader;
 using System.Windows;
 using System.Windows.Input;
 
@@ -14,8 +18,13 @@ namespace OpenTKPluginBrowser
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		private readonly IEnumerable<IPlugin> _plugins;
+		private List<IPlugin> _plugins;
 		//private readonly OpenGLContext _openGL;
+		private static readonly string[] _pluginPaths = new string[]
+		{
+				// Paths to plugins to load.
+				@"D:\Daten\Visual Studio 2019\Projects\OpenTKPluginBrowser\Triangle\bin\Debug\triangle.dll"
+		};
 
 		public MainWindow()
 		{
@@ -31,25 +40,48 @@ namespace OpenTKPluginBrowser
 			};
 			OpenTkControl.Start(settings);
 
-			string[] pluginPaths = new string[]
-			{
-				// Paths to plugins to load.
-				@"D:\Daten\Visual Studio 2019\Projects\OpenTKPluginBrowser\Triangle\bin\Debug\triangle.dll"
-			};
-			_plugins = pluginPaths.SelectMany(PluginLoader.LoadPlugins).ToList();
+			_plugins = _pluginPaths.SelectMany(PluginLoader.LoadPlugins).ToList();
 		}
 
 		private void OpenTkControl_OnRender(TimeSpan delta)
 		{
-			foreach (var plugin in _plugins)
-			{
-				plugin.Render(1 / 60f);
-			}
+			//foreach (var plugin in _plugins)
+			//{
+			//	plugin.Render(1 / 60f);
+			//}
 		}
 
+		[MethodImpl(MethodImplOptions.NoInlining)]
 		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			OpenTkControl.InvalidateVisual();
+{
+			HashSet<WeakReference<AssemblyLoadContext>> contextRefs = new();
+			foreach (var plugin in _plugins)
+			{
+				var context = AssemblyLoadContext.GetLoadContext(plugin.GetType().Assembly);
+				if(context != null)
+				{
+					WeakReference<AssemblyLoadContext> r = new(context, trackResurrection: true);
+					contextRefs.Add(r);
+				}
+			}
+			foreach (var plugin in _plugins)
+			{
+				if (plugin is IDisposable disposable) disposable.Dispose();
+			}
+			_plugins.Clear();
+			foreach (var contextRef in contextRefs)
+			{
+				if (contextRef.TryGetTarget(out var context))
+				{
+					context.Unload();
+				}
+			}
+			while (contextRefs.Any(r => r.TryGetTarget(out _)))
+			{
+				GC.Collect();
+				GC.WaitForPendingFinalizers();
+			}
+			_plugins = _pluginPaths.SelectMany(PluginLoader.LoadPlugins).ToList();
 		}
 
 		private void OpenTkControl_MouseDown(object sender, MouseButtonEventArgs e)
@@ -66,10 +98,10 @@ namespace OpenTKPluginBrowser
 
 		private void OpenTkControl_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			foreach (var plugin in _plugins)
-			{
-				plugin.Resize(OpenTkControl.FrameBufferWidth, OpenTkControl.FrameBufferHeight);
-			}
+			//foreach (var plugin in _plugins)
+			//{
+			//	plugin.Resize(OpenTkControl.FrameBufferWidth, OpenTkControl.FrameBufferHeight);
+			//}
 		}
 
 		private void OpenTkControl_KeyDown(object sender, KeyEventArgs e)

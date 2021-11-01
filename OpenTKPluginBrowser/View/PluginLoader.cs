@@ -13,9 +13,9 @@ namespace OpenTKPluginBrowser
 			Console.WriteLine($"Loading commands from: {assemblyFilePath}");
 			//Assembly pluginAssembly = Assembly.LoadFile(assemblyFilePath);
 
-			PluginLoadContext loadContext = new PluginLoadContext(assemblyFilePath);
+			//TODO: need to save context for unloading
+			CollectibleLoadContext loadContext = new(assemblyFilePath);
 			Assembly pluginAssembly = loadContext.LoadFromAssemblyPath(assemblyFilePath);
-
 			return CreateInstancesOf<IPlugin>(pluginAssembly);
 		}
 
