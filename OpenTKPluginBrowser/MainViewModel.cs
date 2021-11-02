@@ -11,26 +11,21 @@ namespace OpenTKPluginBrowser
 	internal class MainViewModel
 	{
 		private List<IPlugin> _plugins;
-		//private readonly OpenGLContext _openGL;
-		private readonly string[] _pluginPaths = new string[]
-		{
-				// Paths to plugins to load.
-				Path.GetFullPath(@"..\..\..\Triangle\bin\Debug\triangle.dll")
-		};
 
 		public MainViewModel()
 		{
-			_plugins = _pluginPaths.SelectMany(PluginLoader.LoadPlugins).ToList();
+			_plugins = GetPlugins().ToList();
 		}
 
 		public IPlugin? Plugin => _plugins.FirstOrDefault();
 		
 		internal void Render(float frameTime)
 		{
-			foreach (var plugin in _plugins)
-			{
-				plugin.Render(frameTime);
-			}
+			Plugin.Render(frameTime);
+			//foreach (var plugin in _plugins)
+			//{
+			//	plugin.Render(frameTime);
+			//}
 		}
 
 		[MethodImpl(MethodImplOptions.NoInlining)]
@@ -43,7 +38,7 @@ namespace OpenTKPluginBrowser
 				if (context != null)
 				{
 					WeakReference<AssemblyLoadContext> r = new(context, trackResurrection: true);
-					contextRefs.Add(r);
+					_ = contextRefs.Add(r);
 				}
 			}
 			foreach (var plugin in _plugins)
@@ -63,7 +58,7 @@ namespace OpenTKPluginBrowser
 				GC.Collect();
 				GC.WaitForPendingFinalizers();
 			}
-			_plugins = _pluginPaths.SelectMany(PluginLoader.LoadPlugins).ToList();
+			_plugins = GetPlugins().ToList();
 		}
 
 		internal void Resize(int frameBufferWidth, int frameBufferHeight)
@@ -73,5 +68,17 @@ namespace OpenTKPluginBrowser
 				plugin.Resize(frameBufferWidth, frameBufferHeight);
 			}
 		}
+
+		private static IEnumerable<string> EnumeratePlugins(string searchPath)
+		{
+			string jsonExtension = "*.deps.json";
+			var fileNames = Directory.EnumerateFiles(searchPath, jsonExtension, SearchOption.AllDirectories);
+			foreach(var fileName in fileNames.Select(name => name.Substring(0, 1 + name.Length - jsonExtension.Length)))
+			{
+				var dll = Path.GetFullPath(fileName) + ".dll";
+				if (File.Exists(dll)) yield return dll;
+			}
+		}
+		private static IEnumerable<IPlugin> GetPlugins() => EnumeratePlugins(@"..\..\..\Plugins").SelectMany(PluginLoader.LoadPlugins);
 	}
 }

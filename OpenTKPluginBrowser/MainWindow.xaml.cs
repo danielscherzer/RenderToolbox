@@ -16,12 +16,11 @@ namespace OpenTKPluginBrowser
 		public MainWindow()
 		{
 			InitializeComponent();
-			var settings = new GLWpfControlSettings
+			GLWpfControlSettings settings = new()
 			{
 				MajorVersion = 4,
 				MinorVersion = 5,
 				GraphicsProfile = OpenTK.Windowing.Common.ContextProfile.Compatability,
-				RenderContinuously = false,
 			};
 			OpenTkControl.Start(settings);
 

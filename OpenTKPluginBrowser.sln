@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginBase", "PluginBase\Pl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenTKPluginBrowser", "OpenTKPluginBrowser\OpenTKPluginBrowser.csproj", "{3FFD7D44-C67B-4B24-BED7-C1A708BBD250}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Triangle", "Triangle\Triangle.csproj", "{D536A852-858A-489E-B924-6AB222B824FC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{1834E254-041E-4148-B228-B4895421D5D0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Triangle", "Plugins\Triangle\Triangle.csproj", "{FD26A37F-D614-4DD8-88A6-3037C92579CB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AABBRotation", "Plugins\AABBRotation\AABBRotation.csproj", "{8879766D-D984-45D4-88EA-CFFF5F500585}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,13 +27,21 @@ Global
 		{3FFD7D44-C67B-4B24-BED7-C1A708BBD250}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FFD7D44-C67B-4B24-BED7-C1A708BBD250}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FFD7D44-C67B-4B24-BED7-C1A708BBD250}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D536A852-858A-489E-B924-6AB222B824FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D536A852-858A-489E-B924-6AB222B824FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D536A852-858A-489E-B924-6AB222B824FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D536A852-858A-489E-B924-6AB222B824FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD26A37F-D614-4DD8-88A6-3037C92579CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD26A37F-D614-4DD8-88A6-3037C92579CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD26A37F-D614-4DD8-88A6-3037C92579CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD26A37F-D614-4DD8-88A6-3037C92579CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8879766D-D984-45D4-88EA-CFFF5F500585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8879766D-D984-45D4-88EA-CFFF5F500585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8879766D-D984-45D4-88EA-CFFF5F500585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8879766D-D984-45D4-88EA-CFFF5F500585}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FD26A37F-D614-4DD8-88A6-3037C92579CB} = {1834E254-041E-4148-B228-B4895421D5D0}
+		{8879766D-D984-45D4-88EA-CFFF5F500585} = {1834E254-041E-4148-B228-B4895421D5D0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2881364D-2BCB-4D64-96B7-CD7C5954FF2A}

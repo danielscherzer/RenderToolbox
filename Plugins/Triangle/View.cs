@@ -9,21 +9,21 @@ namespace Triangle
 	/// Example class handling the rendering for OpenGL.
 	public class View : IDisposable, IPlugin
 	{
-		public float Test { get; set; } = 5f;
-		public string Name => "Triangle";
+		public string Name => nameof(Triangle);
+		public float Hue { get; set; } = 7.5f;
 
 		public View()
 		{
 			GL.Enable(EnableCap.Blend);
-			GL.Enable(EnableCap.DepthTest);
+			//GL.Enable(EnableCap.DepthTest);
 		}
 
 		public void Render(float frameTime)
 		{
-			var hue = (float)_stopwatch.Elapsed.TotalSeconds * 0.15f % 1;
-			var c = Color4.FromHsv(new Vector4(hue, 0.75f, 0.75f, 1));
+			var saturation = MathF.Sin((float)_stopwatch.Elapsed.TotalSeconds) * 0.5f + 0.5f;
+			var c = Color4.FromHsv(new Vector4(Hue / 10f, saturation, 0.75f, 1));
 			GL.ClearColor(c);
-			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			GL.Clear(ClearBufferMask.ColorBufferBit);
 			GL.LoadIdentity();
 			GL.Begin(PrimitiveType.Triangles);
 
