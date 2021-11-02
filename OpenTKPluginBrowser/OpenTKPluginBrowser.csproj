@@ -19,6 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HandyControls" Version="3.3.8.1" />
     <PackageReference Include="OpenTK.GLWpfControl" Version="4.1.0" />
   </ItemGroup>
 

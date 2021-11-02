@@ -9,6 +9,9 @@ namespace Triangle
 	/// Example class handling the rendering for OpenGL.
 	public class View : IDisposable, IPlugin
 	{
+		public float Test { get; set; } = 5f;
+		public string Name => "Triangle";
+
 		public View()
 		{
 			GL.Enable(EnableCap.Blend);
