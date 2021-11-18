@@ -1,13 +1,14 @@
-﻿<Window x:Class="OpenTKPluginBrowser.MainWindow"
+﻿<Window x:Class="RenderToolbox.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:glWpfControl="clr-namespace:OpenTK.Wpf;assembly=GLWpfControl"
-        xmlns:local="clr-namespace:OpenTKPluginBrowser"
+        xmlns:local="clr-namespace:RenderToolbox"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown" x:Name="window">
+        Title="{Binding PluginPath}" Height="450" Width="800" KeyDown="Window_KeyDown" x:Name="window" 
+		AllowDrop="True" DragOver="Window_DragOver" Drop="Window_Drop">
 	<Grid>
 		<!--main client area-->
 		<Grid.ColumnDefinitions>

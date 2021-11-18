@@ -1,10 +1,12 @@
+using Jot;
+using Jot.Storage;
 using OpenTK.Wpf;
 using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 
-namespace OpenTKPluginBrowser
+namespace RenderToolbox
 {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
@@ -26,6 +28,7 @@ namespace OpenTKPluginBrowser
 
 			_viewModel = new MainViewModel();
 			DataContext = _viewModel;
+			Persist.Configure(this, _viewModel);
 		}
 
 		private void OpenTkControl_OnRender(TimeSpan delta)
@@ -35,7 +38,7 @@ namespace OpenTKPluginBrowser
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			_viewModel.Reload();
+			_viewModel.Unload();
 		}
 
 		private void OpenTkControl_MouseDown(object sender, MouseButtonEventArgs e)
@@ -63,6 +66,21 @@ namespace OpenTKPluginBrowser
 		private void Window_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.Key == Key.Escape) window.Close();
+		}
+
+		private void Window_DragOver(object sender, DragEventArgs dragInfo)
+		{
+			dragInfo.Effects = DragDropEffects.Link;
+			dragInfo.Handled = true;
+		}
+
+		private void Window_Drop(object sender, DragEventArgs dragInfo)
+		{
+			string[] fileNames = (string[])dragInfo.Data.GetData(DataFormats.FileDrop);
+			foreach (string fileName in fileNames)
+			{
+			 	_viewModel.PluginPath = fileName;
+			}
 		}
 	}
 }

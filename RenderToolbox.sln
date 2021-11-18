@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginBase", "PluginBase\PluginBase.csproj", "{EBFEE904-1668-4A2A-874F-1B9B053FCAD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RenderToolbox", "RenderToolbox\RenderToolbox.csproj", "{3FFD7D44-C67B-4B24-BED7-C1A708BBD250}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenTKPluginBrowser", "OpenTKPluginBrowser\OpenTKPluginBrowser.csproj", "{3FFD7D44-C67B-4B24-BED7-C1A708BBD250}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginBase", "PluginBase\PluginBase.csproj", "{EBFEE904-1668-4A2A-874F-1B9B053FCAD9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{1834E254-041E-4148-B228-B4895421D5D0}"
 EndProject
