@@ -1,8 +1,10 @@
 ﻿using PluginBase;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
+using System.Windows.Input;
 using Zenseless.Patterns;
 
 namespace RenderToolbox
@@ -11,7 +13,10 @@ namespace RenderToolbox
 	{
 		public MainViewModel()
 		{
+			LoadCommand = new DelegateCommand<string>(path => PluginPath = path);
 		}
+
+		public ICommand LoadCommand { private set; get; }
 
 		public IPlugin? Plugin { get => _plugin; private set => Set(ref _plugin, value); }
 
@@ -25,8 +30,9 @@ namespace RenderToolbox
 				{
 					Set(ref _pluginPath, value);
 					Plugin = plugin;
-					fileChangeSubscription?.Dispose();
-					fileChangeSubscription = TrackedFileObservable.DelayedLoad(value).Subscribe(
+					RecentlyUsed.Add(value);
+					_fileChangeSubscription?.Dispose();
+					_fileChangeSubscription = TrackedFileObservable.DelayedLoad(value).Subscribe(
 						fileName =>
 						{
 							PluginPath = value;
@@ -35,6 +41,8 @@ namespace RenderToolbox
 				}
 			}
 		}
+
+		public ObservableCollection<string> RecentlyUsed { get => _recentlyUsed; set => Set(ref _recentlyUsed, value); }
 
 		internal void Render(float frameTime)
 		{
@@ -87,9 +95,10 @@ namespace RenderToolbox
 		//	}
 		//}
 
+		private IDisposable? _fileChangeSubscription;
+		private IPlugin? _plugin;
 		private string _pluginPath = "";
-		private IPlugin? _plugin = null;
-		private IDisposable? fileChangeSubscription = null;
+		private ObservableCollection<string> _recentlyUsed = new();
 
 		//private static IEnumerable<IPlugin> GetPlugins() => EnumeratePlugins(@"..\..\..\Plugins").SelectMany(PluginLoader.LoadPlugins);
 	}

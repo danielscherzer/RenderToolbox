@@ -21,6 +21,7 @@ namespace RenderToolbox
 
 			_tracker.Configure<MainViewModel>().Id(vm => nameof(MainViewModel))
 				.Property(vm => vm.PluginPath, "")
+				.Property(vm => vm.RecentlyUsed)
 				.PersistOn(nameof(Window.Closing), window);
 			_tracker.Track(mainViewModel);
 		}
