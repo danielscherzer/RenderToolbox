@@ -9,18 +9,26 @@
         mc:Ignorable="d"
         Title="{Binding PluginPath}" Height="450" Width="800" KeyDown="Window_KeyDown" x:Name="window" 
 		AllowDrop="True" DragOver="Window_DragOver" Drop="Window_Drop">
-	<Grid>
-		<!--main client area-->
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="10" />
-			<ColumnDefinition Width="*" />
-		</Grid.ColumnDefinitions>
-		<glWpfControl:GLWpfControl x:Name="OpenTkControl" SnapsToDevicePixels="True" Render="OpenTkControl_OnRender" 
+	<DockPanel>
+		<ToolBarTray DockPanel.Dock="Top">
+			<ToolBar>
+			</ToolBar>
+		</ToolBarTray>
+		<StatusBar DockPanel.Dock="Bottom">
+			<Button Click="Button_Click" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Bottom">Reload plugins</Button>
+		</StatusBar>
+		<Grid>
+			<!--main client area-->
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="10" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<glWpfControl:GLWpfControl x:Name="OpenTkControl" SnapsToDevicePixels="True" Render="OpenTkControl_OnRender" 
 								   MouseDown="OpenTkControl_MouseDown" MouseMove="OpenTkControl_MouseMove" SizeChanged="OpenTkControl_SizeChanged"
 								   KeyDown="OpenTkControl_KeyDown" Focusable="True"/>
-		<Button Click="Button_Click" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Bottom">Reload plugins</Button>
-		<GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-		<hc:PropertyGrid Grid.Column="2" SelectedObject="{Binding Plugin}" ShowSortButton="False"/>
-	</Grid>
+			<GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+			<hc:PropertyGrid Grid.Column="2" SelectedObject="{Binding Plugin}" ShowSortButton="False"/>
+		</Grid>
+	</DockPanel>
 </Window>

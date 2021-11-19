@@ -1,8 +1,6 @@
 ﻿using PluginBase;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 using Zenseless.Patterns;
@@ -21,11 +19,18 @@ namespace RenderToolbox
 		{
 			get => _pluginPath; set
 			{
+				// TODO: Present trace output
 				IEnumerable<IPlugin> plugins = PluginLoader.LoadPlugins(value);
 				foreach (var plugin in plugins)
 				{
 					Set(ref _pluginPath, value);
 					Plugin = plugin;
+					fileChangeSubscription?.Dispose();
+					fileChangeSubscription = TrackedFileObservable.DelayedLoad(value).Subscribe(
+						fileName =>
+						{
+							PluginPath = value;
+						});
 					return; // load first
 				}
 			}
@@ -71,20 +76,21 @@ namespace RenderToolbox
 			Plugin?.Resize(frameBufferWidth, frameBufferHeight);
 		}
 
-		private static IEnumerable<string> EnumeratePlugins(string searchPath)
-		{
-			string jsonExtension = "*.deps.json";
-			var fileNames = Directory.EnumerateFiles(searchPath, jsonExtension, SearchOption.AllDirectories);
-			foreach (var fileName in fileNames.Select(name => name.Substring(0, 1 + name.Length - jsonExtension.Length)))
-			{
-				var dll = Path.GetFullPath(fileName) + ".dll";
-				if (File.Exists(dll)) yield return dll;
-			}
-		}
+		//private static IEnumerable<string> EnumeratePlugins(string searchPath)
+		//{
+		//	string jsonExtension = "*.deps.json";
+		//	var fileNames = Directory.EnumerateFiles(searchPath, jsonExtension, SearchOption.AllDirectories);
+		//	foreach (var fileName in fileNames.Select(name => name.Substring(0, 1 + name.Length - jsonExtension.Length)))
+		//	{
+		//		var dll = Path.GetFullPath(fileName) + ".dll";
+		//		if (File.Exists(dll)) yield return dll;
+		//	}
+		//}
 
 		private string _pluginPath = "";
 		private IPlugin? _plugin = null;
+		private IDisposable? fileChangeSubscription = null;
 
-		private static IEnumerable<IPlugin> GetPlugins() => EnumeratePlugins(@"..\..\..\Plugins").SelectMany(PluginLoader.LoadPlugins);
+		//private static IEnumerable<IPlugin> GetPlugins() => EnumeratePlugins(@"..\..\..\Plugins").SelectMany(PluginLoader.LoadPlugins);
 	}
 }

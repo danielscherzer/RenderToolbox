@@ -1,5 +1,3 @@
-using Jot;
-using Jot.Storage;
 using OpenTK.Wpf;
 using System;
 using System.Diagnostics;
@@ -79,7 +77,7 @@ namespace RenderToolbox
 			string[] fileNames = (string[])dragInfo.Data.GetData(DataFormats.FileDrop);
 			foreach (string fileName in fileNames)
 			{
-			 	_viewModel.PluginPath = fileName;
+				_viewModel.PluginPath = fileName;
 			}
 		}
 	}

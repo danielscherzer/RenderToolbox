@@ -21,14 +21,14 @@ namespace RenderToolbox
 			string? dir = Path.GetDirectoryName(location);
 			if (dir is null) throw new ApplicationException("Assembly has no location directory.");
 			var temp = Path.Combine(dir, "temp");
-			if(Directory.Exists(temp)) Directory.Delete(temp, true);
+			if (Directory.Exists(temp)) Directory.Delete(temp, true);
 			return temp;
 		}
 
 		public static IEnumerable<IPlugin> LoadPlugins(string assemblyFilePath)
 		{
 			Trace.WriteLine($"Loading commands from: {assemblyFilePath}");
-			if(!File.Exists(assemblyFilePath)) return Enumerable.Empty<IPlugin>();
+			if (!File.Exists(assemblyFilePath)) return Enumerable.Empty<IPlugin>();
 			try
 			{
 				CollectibleLoadContext loadContext = new(assemblyFilePath);

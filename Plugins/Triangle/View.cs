@@ -2,15 +2,21 @@
 using OpenTK.Mathematics;
 using PluginBase;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
+using Zenseless.Patterns;
 
 namespace Triangle
 {
 	/// Example class handling the rendering for OpenGL.
-	public class View : IDisposable, IPlugin
+	public class View : NotifyPropertyChanged, IPlugin
 	{
 		public string Name => nameof(Triangle);
-		public float Hue { get; set; } = 7.5f;
+		[Description("Range [0..10]")]
+		public float Hue { get => _hue; set => Set(ref _hue, OpenTK.Mathematics.MathHelper.Clamp(value, 0f, 10f)); }
+
+		[Description("Range [0..1]")]
+		public float Saturation { get => _saturation; set => Set(ref _saturation, value); }
 
 		public View()
 		{
@@ -20,8 +26,8 @@ namespace Triangle
 
 		public void Render(float frameTime)
 		{
-			var saturation = MathF.Sin((float)_stopwatch.Elapsed.TotalSeconds) * 0.5f + 0.5f;
-			var c = Color4.FromHsv(new Vector4(Hue / 10f, saturation, 0.75f, 1));
+			Saturation = MathF.Sin((float)_stopwatch.Elapsed.TotalSeconds) * 0.25f + 0.5f;
+			var c = Color4.FromHsv(new Vector4(Hue / 10f, Saturation, 0.75f, 1));
 			GL.ClearColor(c);
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 			GL.LoadIdentity();
@@ -45,10 +51,8 @@ namespace Triangle
 
 		}
 
-		public void Dispose()
-		{
-		}
-
 		private readonly Stopwatch _stopwatch = Stopwatch.StartNew();
+		private float _hue = 7.5f;
+		private float _saturation;
 	}
 }

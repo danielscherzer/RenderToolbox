@@ -2,15 +2,15 @@
 using OpenTK.Mathematics;
 using PluginBase;
 using System;
-using System.Diagnostics;
 using System.Drawing;
+using Zenseless.Patterns;
 
 namespace Triangle
 {
 	using Line = Tuple<Vector2, Vector2>;
 
 	/// Example class handling the rendering for OpenGL.
-	public class View : IDisposable, IPlugin
+	public class View : NotifyPropertyChanged, IPlugin
 	{
 		public View()
 		{
@@ -21,8 +21,7 @@ namespace Triangle
 			GL.LineWidth(5f);
 		}
 
-		public float Angle { get; set; } = 0f;
-
+		public float Angle { get => angle; set => Set(ref angle, value); }
 		public void Render(float frameTime)
 		{
 			Angle += 15f * frameTime;
@@ -46,20 +45,15 @@ namespace Triangle
 
 		}
 
-		public void Dispose()
-		{
-		}
-
-		private readonly Stopwatch _stopwatch = Stopwatch.StartNew();
-
 		public string Name => "AABB Rotation";
 
 		private const float size = 0.7f;
 		private readonly Line _stick = new(new Vector2(-size, -size), new Vector2(size, size));
+		private float angle = 0f;
 
 		private static Line RotateLine(Line stick, float rotationAngleDegrees)
 		{
-			var mtxRotation = Matrix2.CreateRotation(MathHelper.DegreesToRadians(rotationAngleDegrees));
+			var mtxRotation = Matrix2.CreateRotation(OpenTK.Mathematics.MathHelper.DegreesToRadians(rotationAngleDegrees));
 			var a = Vector2.TransformRow(stick.Item1, mtxRotation);
 			var b = Vector2.TransformRow(stick.Item2, mtxRotation);
 			return new Line(a, b);

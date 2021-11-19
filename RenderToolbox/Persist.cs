@@ -7,7 +7,7 @@ namespace RenderToolbox
 	internal static class Persist
 	{
 		public static Tracker Tracker => _tracker;
-		
+
 		internal static void Configure(Window window, MainViewModel mainViewModel)
 		{
 			_tracker.Configure<Window>().Id(w => "Window")
