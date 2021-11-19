@@ -11,13 +11,24 @@
 		AllowDrop="True" DragOver="Window_DragOver" Drop="Window_Drop">
 	<DockPanel>
 		<ToolBarTray DockPanel.Dock="Top">
-			<ToolBar ItemsSource="{Binding RecentlyUsed}" Band="1">
+			<ToolBar>
+				<Menu>
+					<MenuItem Header="_File" ItemsSource="{Binding RecentlyUsed}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<MenuItem Header="{Binding}" Command="{Binding DataContext.LoadCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window} }" CommandParameter="{Binding}" />
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</MenuItem>
+				</Menu>
+			</ToolBar>
+			<!--<ToolBar ItemsSource="{Binding RecentlyUsed}" Band="1">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<Button Content="{Binding}" Command="{Binding DataContext.LoadCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window} }" CommandParameter="{Binding}" />
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
-			</ToolBar>
+			</ToolBar>-->
 		</ToolBarTray>
 		<StatusBar DockPanel.Dock="Bottom">
 			<!--<Button Click="Button_Click" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Bottom">Reload plugins</Button>-->

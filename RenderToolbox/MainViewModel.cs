@@ -2,8 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
+using System.Windows.Data;
 using System.Windows.Input;
 using Zenseless.Patterns;
 
@@ -30,7 +33,9 @@ namespace RenderToolbox
 				{
 					Set(ref _pluginPath, value);
 					Plugin = plugin;
-					RecentlyUsed.Add(value);
+					RecentlyUsed.Insert(0, value);
+					IEnumerable<string> distinct = RecentlyUsed.Distinct();
+					RecentlyUsed = new ObservableCollection<string>(distinct);
 					_fileChangeSubscription?.Dispose();
 					_fileChangeSubscription = TrackedFileObservable.DelayedLoad(value).Subscribe(
 						fileName =>
@@ -42,7 +47,7 @@ namespace RenderToolbox
 			}
 		}
 
-		public ObservableCollection<string> RecentlyUsed { get => _recentlyUsed; set => Set(ref _recentlyUsed, value); }
+		public ObservableCollection<string> RecentlyUsed { get => _recentlyUsed; set => Set(ref _recentlyUsed, value, coll => BindingOperations.EnableCollectionSynchronization(coll, lockObj)); }
 
 		internal void Render(float frameTime)
 		{
@@ -99,6 +104,7 @@ namespace RenderToolbox
 		private IPlugin? _plugin;
 		private string _pluginPath = "";
 		private ObservableCollection<string> _recentlyUsed = new();
+		private object lockObj = new();
 
 		//private static IEnumerable<IPlugin> GetPlugins() => EnumeratePlugins(@"..\..\..\Plugins").SelectMany(PluginLoader.LoadPlugins);
 	}
