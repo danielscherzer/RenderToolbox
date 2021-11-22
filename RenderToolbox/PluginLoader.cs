@@ -2,9 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.Loader;
 
 namespace RenderToolbox
 {
@@ -32,10 +35,10 @@ namespace RenderToolbox
 			try
 			{
 				CollectibleLoadContext loadContext = new(assemblyFilePath);
-				var tempPluginDir = Path.Combine(TempDir, DateTime.Now.ToString("yyyy-MM-dd_HHmmss"));
-				Directory.CreateDirectory(tempPluginDir);
+				var tempPluginDir = Path.Combine(TempDir, DateTime.Now.ToString("yyyy-MM-dd_HHmmss", CultureInfo.InvariantCulture));
+				if(!Directory.Exists(tempPluginDir)) _ = Directory.CreateDirectory(tempPluginDir);
 				var newPath = Path.Combine(tempPluginDir, Path.GetFileName(assemblyFilePath));
-				File.Copy(assemblyFilePath, newPath);
+				if(!File.Exists(newPath)) File.Copy(assemblyFilePath, newPath);
 				Assembly pluginAssembly = loadContext.LoadFromAssemblyPath(newPath);
 				return CreateInstancesOf<IPlugin>(pluginAssembly);
 			}
@@ -44,7 +47,6 @@ namespace RenderToolbox
 				return Enumerable.Empty<IPlugin>();
 			}
 		}
-
 
 		public static IEnumerable<TYPE> CreateInstancesOf<TYPE>(Assembly assembly)
 		{
@@ -56,17 +58,46 @@ namespace RenderToolbox
 				{
 					if (Activator.CreateInstance(type) is TYPE instance)
 					{
-						count++;
+						++count;
 						yield return instance;
 					}
 				}
 			}
 
-			if (count == 0)
+			if (0 == count)
 			{
 				string availableTypes = string.Join(",", assembly.GetTypes().Select(t => t.FullName));
 				Trace.WriteLine($"Can't find any type which implements {nameof(TYPE)} in {assembly} from {assembly.Location}.\n" +
 					$"Available types: {availableTypes}");
+			}
+		}
+
+		[MethodImpl(MethodImplOptions.NoInlining)]
+		public static void Unload(this IPlugin plugin)
+		{
+			if (plugin is null) return;
+			WeakReference<AssemblyLoadContext>? contextRef = null;
+			AssemblyLoadContext? loadContext = AssemblyLoadContext.GetLoadContext(plugin.GetType().Assembly);
+			if (loadContext != null)
+			{
+				contextRef = new(loadContext, trackResurrection: true);
+			}
+
+			if (plugin is IDisposable disposable) disposable.Dispose();
+			//plugin = null;
+
+			for (int i = 0; i < 10; ++i)
+			{
+				GC.Collect();
+				GC.WaitForPendingFinalizers();
+			}
+
+			if (contextRef != null)
+			{
+				if (contextRef.TryGetTarget(out var context))
+				{
+					context.Unload();
+				}
 			}
 		}
 	}

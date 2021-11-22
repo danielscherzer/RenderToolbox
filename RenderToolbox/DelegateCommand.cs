@@ -3,10 +3,10 @@ using System.Windows.Input;
 
 namespace RenderToolbox
 {
-	public class DelegateCommand<Type> : ICommand
+	public class DelegateCommand : ICommand
 	{
-		private readonly Predicate<Type>? _canExecute;
-		private readonly Action<Type> _execute;
+		private readonly Predicate<object?>? _canExecute;
+		private readonly Action<object?> _execute;
 
 		public event EventHandler? CanExecuteChanged
 		{
@@ -14,37 +14,17 @@ namespace RenderToolbox
 			remove { CommandManager.RequerySuggested -= value; }
 		}
 
-		public DelegateCommand(Action<Type> execute, Predicate<Type>? canExecute = null)
+		public DelegateCommand(Action<object?> execute, Predicate<object?>? canExecute = null)
 		{
-			_execute = execute;
+			_execute = execute ?? throw new ArgumentNullException(nameof(execute));
 			_canExecute = canExecute;
 		}
 
-		public bool CanExecute(Type parameter)
+		public bool CanExecute(object? parameter)
 		{
 			return _canExecute == null || _canExecute(parameter);
 		}
 
-		public void Execute(Type parameter) => _execute(parameter);
-
-		public static void RaiseCanExecuteChanged() => CommandManager.InvalidateRequerySuggested();
-
-		public bool CanExecute(object? parameter)
-		{
-			if (parameter is null) return false;
-			return CanExecute((Type)parameter);
-		}
-
-		public void Execute(object? parameter)
-		{
-			if (parameter is null)
-			{
-				throw new ArgumentNullException(nameof(parameter));
-			}
-			else
-			{
-				Execute((Type)parameter);
-			}
-		}
+		public void Execute(object? parameter) => _execute(parameter);
 	}
 }

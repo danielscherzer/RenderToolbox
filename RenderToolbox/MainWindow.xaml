@@ -5,10 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:glWpfControl="clr-namespace:OpenTK.Wpf;assembly=GLWpfControl"
-        xmlns:local="clr-namespace:RenderToolbox"
+        xmlns:self="clr-namespace:RenderToolbox"
         mc:Ignorable="d"
         Title="{Binding PluginPath}" Height="450" Width="800" KeyDown="Window_KeyDown" x:Name="window" 
 		AllowDrop="True" DragOver="Window_DragOver" Drop="Window_Drop">
+	<Window.Resources>
+		<self:UpdateViewModel x:Key="update"/>
+	</Window.Resources>
 	<DockPanel>
 		<ToolBarTray DockPanel.Dock="Top">
 			<ToolBar>
@@ -16,22 +19,19 @@
 					<MenuItem Header="_File" ItemsSource="{Binding RecentlyUsed}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-								<MenuItem Header="{Binding}" Command="{Binding DataContext.LoadCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window} }" CommandParameter="{Binding}" />
+								<MenuItem Header="{Binding}" IsCheckable="False"
+										  Command="{Binding DataContext.LoadCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window} }" CommandParameter="{Binding}" />
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>
 					</MenuItem>
 				</Menu>
 			</ToolBar>
-			<!--<ToolBar ItemsSource="{Binding RecentlyUsed}" Band="1">
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<Button Content="{Binding}" Command="{Binding DataContext.LoadCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window} }" CommandParameter="{Binding}" />
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ToolBar>-->
 		</ToolBarTray>
 		<StatusBar DockPanel.Dock="Bottom">
-			<!--<Button Click="Button_Click" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Bottom">Reload plugins</Button>-->
+			<Button DataContext="{DynamicResource update}" Visibility="{Binding Available, Converter={StaticResource BoolToVis}}"
+					Command="{Binding Command}">
+				Update available!
+			</Button>
 		</StatusBar>
 		<Grid>
 			<!--main client area-->

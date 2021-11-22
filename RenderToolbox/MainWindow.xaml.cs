@@ -34,11 +34,6 @@ namespace RenderToolbox
 			_viewModel.Render((float)delta.TotalSeconds);
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			_viewModel.Unload();
-		}
-
 		private void OpenTkControl_MouseDown(object sender, MouseButtonEventArgs e)
 		{
 
@@ -46,9 +41,9 @@ namespace RenderToolbox
 
 		private void OpenTkControl_MouseMove(object sender, MouseEventArgs e)
 		{
-			OpenTkControl.InvalidateVisual();
-			var position = e.GetPosition(OpenTkControl);
-			Debug.WriteLine(position);
+			//OpenTkControl.InvalidateVisual();
+			//var position = e.GetPosition(OpenTkControl);
+			//Debug.WriteLine(position);
 		}
 
 		private void OpenTkControl_SizeChanged(object sender, SizeChangedEventArgs e)

@@ -6,26 +6,24 @@ namespace RenderToolbox
 {
 	internal static class Persist
 	{
-		public static Tracker Tracker => _tracker;
+		public static Tracker Tracker { get; } = new(new JsonFileStore("./"));
 
 		internal static void Configure(Window window, MainViewModel mainViewModel)
 		{
-			_tracker.Configure<Window>().Id(w => "Window")
+			_ = Tracker.Configure<Window>().Id(w => "Window")
 				.Property(w => w.Left, 200)
 				.Property(w => w.Top, 60)
 				.Property(w => w.Width, 1024)
 				.Property(w => w.Height, 1024)
 				.WhenPersistingProperty((wnd, property) => property.Cancel = WindowState.Normal != wnd.WindowState)
 				.PersistOn(nameof(Window.Closing));
-			_tracker.Track(window);
+			Tracker.Track(window);
 
-			_tracker.Configure<MainViewModel>().Id(vm => nameof(MainViewModel))
+			_ = Tracker.Configure<MainViewModel>().Id(vm => nameof(MainViewModel))
 				.Property(vm => vm.PluginPath, "")
 				.Property(vm => vm.RecentlyUsed)
 				.PersistOn(nameof(Window.Closing), window);
-			_tracker.Track(mainViewModel);
+			Tracker.Track(mainViewModel);
 		}
-
-		private static readonly Tracker _tracker = new(new JsonFileStore("./"));
 	}
 }
