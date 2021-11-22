@@ -1,12 +1,18 @@
 ﻿using Jot;
+#if !DEBUG
 using Jot.Storage;
+#endif
 using System.Windows;
 
 namespace RenderToolbox
 {
 	internal static class Persist
 	{
+#if DEBUG
+		public static Tracker Tracker { get; } = new();
+#else
 		public static Tracker Tracker { get; } = new(new JsonFileStore("./"));
+#endif
 
 		internal static void Configure(Window window, MainViewModel mainViewModel)
 		{

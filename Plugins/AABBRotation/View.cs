@@ -1,9 +1,9 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
-using PluginBase;
 using System;
 using System.Drawing;
 using Zenseless.Patterns;
+using Zenseless.RenderToolbox;
 
 namespace Triangle
 {

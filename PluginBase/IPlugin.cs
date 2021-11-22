@@ -1,4 +1,4 @@
-﻿namespace PluginBase
+﻿namespace Zenseless.RenderToolbox
 {
 	public interface IPlugin
 	{

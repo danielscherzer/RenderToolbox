@@ -11,16 +11,16 @@ namespace RenderToolbox
 	{
 		public UpdateViewModel()
 		{
-			var update = new Update();
+			Update update = new();
 			update.PropertyChanged += (s, a) => Available = update.Available;
-			var assembly = Assembly.GetExecutingAssembly();
-			update.CheckDownloadNewVersionAsync("danielScherzer", "RenderToolbox", assembly.GetName().Version, Path.GetTempPath());
+			Assembly assembly = Assembly.GetExecutingAssembly();
+			_ = update.CheckDownloadNewVersionAsync("danielScherzer", "RenderToolbox", assembly.GetName().Version, Path.GetTempPath());
 
 
 			void UpdateAndClose()
 			{
-				update.StartInstall(Path.GetDirectoryName(assembly.Location));
-				var app = Application.Current;
+				_ = update.StartInstall(Path.GetDirectoryName(assembly.Location));
+				Application app = Application.Current;
 				app.Shutdown();
 			}
 
@@ -30,7 +30,7 @@ namespace RenderToolbox
 		public bool Available { get => _available; private set => Set(ref _available, value, _ => CommandManager.InvalidateRequerySuggested()); }
 		public ICommand Command => _command;
 
-		private bool _available = false;
+		private bool _available;
 		private readonly DelegateCommand _command;
 	}
 }
