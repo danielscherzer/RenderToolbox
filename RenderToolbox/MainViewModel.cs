@@ -26,7 +26,7 @@ namespace RenderToolbox
 			get => _pluginPath; set
 			{
 				if (value == _pluginPath) return; // no change
-				// TODO: Present trace output
+												  // TODO: Present trace output
 				IEnumerable<IPlugin> plugins = PluginLoader.LoadPlugins(value);
 				foreach (var plugin in plugins)
 				{

@@ -13,20 +13,29 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Triangle", "Plugins\Triangl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AABBRotation", "Plugins\AABBRotation\AABBRotation.csproj", "{8879766D-D984-45D4-88EA-CFFF5F500585}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1A128D00-8C47-4A4C-B19B-2660601C0A7D}"
+	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
+		CHANGELOG.md = CHANGELOG.md
+		CONTRIBUTING.md = CONTRIBUTING.md
+		ISSUE_TEMPLATE.md = ISSUE_TEMPLATE.md
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EBFEE904-1668-4A2A-874F-1B9B053FCAD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EBFEE904-1668-4A2A-874F-1B9B053FCAD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EBFEE904-1668-4A2A-874F-1B9B053FCAD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EBFEE904-1668-4A2A-874F-1B9B053FCAD9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3FFD7D44-C67B-4B24-BED7-C1A708BBD250}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3FFD7D44-C67B-4B24-BED7-C1A708BBD250}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FFD7D44-C67B-4B24-BED7-C1A708BBD250}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FFD7D44-C67B-4B24-BED7-C1A708BBD250}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBFEE904-1668-4A2A-874F-1B9B053FCAD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBFEE904-1668-4A2A-874F-1B9B053FCAD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBFEE904-1668-4A2A-874F-1B9B053FCAD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBFEE904-1668-4A2A-874F-1B9B053FCAD9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FD26A37F-D614-4DD8-88A6-3037C92579CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FD26A37F-D614-4DD8-88A6-3037C92579CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD26A37F-D614-4DD8-88A6-3037C92579CB}.Release|Any CPU.ActiveCfg = Release|Any CPU

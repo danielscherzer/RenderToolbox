@@ -36,9 +36,9 @@ namespace RenderToolbox
 			{
 				CollectibleLoadContext loadContext = new(assemblyFilePath);
 				var tempPluginDir = Path.Combine(TempDir, DateTime.Now.ToString("yyyy-MM-dd_HHmmss", CultureInfo.InvariantCulture));
-				if(!Directory.Exists(tempPluginDir)) _ = Directory.CreateDirectory(tempPluginDir);
+				if (!Directory.Exists(tempPluginDir)) _ = Directory.CreateDirectory(tempPluginDir);
 				var newPath = Path.Combine(tempPluginDir, Path.GetFileName(assemblyFilePath));
-				if(!File.Exists(newPath)) File.Copy(assemblyFilePath, newPath);
+				if (!File.Exists(newPath)) File.Copy(assemblyFilePath, newPath);
 				Assembly pluginAssembly = loadContext.LoadFromAssemblyPath(newPath);
 				return CreateInstancesOf<IPlugin>(pluginAssembly);
 			}
