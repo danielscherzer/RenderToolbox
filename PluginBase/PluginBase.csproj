@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <PackageId>Zenseless.RenderToolbox.PluginBase</PackageId>
     <Version>0.1</Version>
     <Authors>Daniel Scherzer</Authors>
     <Company>Daniel Scherzer</Company>
