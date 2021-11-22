@@ -30,7 +30,7 @@ namespace RenderToolbox
 
 		public static IEnumerable<IPlugin> LoadPlugins(string assemblyFilePath)
 		{
-			Trace.WriteLine($"Loading commands from: {assemblyFilePath}");
+			Trace.WriteLine($"{nameof(LoadPlugins)}: Loading commands from: {assemblyFilePath}");
 			if (!File.Exists(assemblyFilePath)) return Enumerable.Empty<IPlugin>();
 			try
 			{
@@ -38,7 +38,20 @@ namespace RenderToolbox
 				var tempPluginDir = Path.Combine(TempDir, DateTime.Now.ToString("yyyy-MM-dd_HHmmss", CultureInfo.InvariantCulture));
 				if (!Directory.Exists(tempPluginDir)) _ = Directory.CreateDirectory(tempPluginDir);
 				var newPath = Path.Combine(tempPluginDir, Path.GetFileName(assemblyFilePath));
-				if (!File.Exists(newPath)) File.Copy(assemblyFilePath, newPath);
+				if (!File.Exists(newPath))
+				{
+					// copy all files in directory
+					var sourceDir = Path.GetDirectoryName(assemblyFilePath);
+					if (sourceDir is null)
+					{
+						Trace.WriteLine($"{nameof(LoadPlugins)}: '{assemblyFilePath}' contains no directory information.");
+						return Enumerable.Empty<IPlugin>();
+					}
+					foreach (var file in Directory.EnumerateFiles(sourceDir, "*.*"))
+					{
+						File.Copy(file, Path.Combine(tempPluginDir, Path.GetFileName(file)));
+					}
+				}
 				Assembly pluginAssembly = loadContext.LoadFromAssemblyPath(newPath);
 				return CreateInstancesOf<IPlugin>(pluginAssembly);
 			}
@@ -67,7 +80,7 @@ namespace RenderToolbox
 			if (0 == count)
 			{
 				string availableTypes = string.Join(",", assembly.GetTypes().Select(t => t.FullName));
-				Trace.WriteLine($"Can't find any type which implements {nameof(TYPE)} in {assembly} from {assembly.Location}.\n" +
+				Trace.WriteLine($"{nameof(CreateInstancesOf)}: Can't find any type which implements {nameof(TYPE)} in {assembly} from {assembly.Location}.\n" +
 					$"Available types: {availableTypes}");
 			}
 		}
