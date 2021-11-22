@@ -21,6 +21,9 @@ before_build:
 - nuget restore -Verbosity quiet
 
 build:
+  publish_nuget: true             # package projects with .nuspec files and push to artifacts
+  publish_nuget_symbols: false     # generate and publish NuGet symbol packages
+  include_nuget_references: false  # add -IncludeReferencedProjects option while packaging NuGet artifacts
   verbosity: minimal              # MSBuild verbosity level
 
 artifacts:
@@ -37,3 +40,8 @@ deploy:
   artifact: $(APPVEYOR_PROJECT_NAME)
   draft: false
   prerelease: false
+- provider: NuGet
+  api_key:
+    secure: ywrBoIc1n2YEkhbPI3UCwYMQPT8hpxzMIDoHZvDOCZaa4I4uzhXp2LlTDUMruOwP
+  skip_symbols: false
+  artifact: /.*\.nupkg/
