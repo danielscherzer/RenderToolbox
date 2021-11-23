@@ -55,7 +55,7 @@ namespace RenderToolbox
 				Assembly pluginAssembly = loadContext.LoadFromAssemblyPath(newPath);
 				return CreateInstancesOf<IPlugin>(pluginAssembly);
 			}
-			catch
+			catch(Exception e)
 			{
 				return Enumerable.Empty<IPlugin>();
 			}
