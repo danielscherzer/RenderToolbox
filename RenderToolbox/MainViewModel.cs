@@ -17,7 +17,7 @@ namespace RenderToolbox
 			LoadCommand = new TypedDelegateCommand<string>(path => PluginPath = path);
 		}
 
-		public ICommand LoadCommand { private set; get; }
+		public ICommand LoadCommand { get; private set; }
 
 		public IPlugin? Plugin { get => _plugin; private set => Set(ref _plugin, value); }
 
