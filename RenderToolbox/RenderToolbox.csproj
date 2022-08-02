@@ -12,13 +12,13 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="AutoUpdateViaGitHubRelease" Version="0.1.51" />
+    <PackageReference Include="AutoUpdateViaGitHubRelease" Version="0.1.59" />
     <PackageReference Include="HandyControls" Version="3.3.8.1" />
-    <PackageReference Include="Jot" Version="2.1.11" />
-    <PackageReference Include="OpenTK.GLWpfControl" Version="4.1.0" />
+    <PackageReference Include="Jot" Version="2.1.13" />
+    <PackageReference Include="OpenTK.GLWpfControl" Version="4.2.2" />
     <PackageReference Include="System.Reactive" Version="5.0.0" />
-    <PackageReference Include="Zenseless.Patterns" Version="0.6.18" />
-    <PackageReference Include="Zenseless.RenderToolbox.PluginBase" Version="0.1.5" />
+    <PackageReference Include="Zenseless.Patterns" Version="0.6.21" />
+    <PackageReference Include="Zenseless.RenderToolbox.PluginBase" Version="0.1.6" />
   </ItemGroup>
 
 </Project>
