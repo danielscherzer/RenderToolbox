@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Version>0.1</Version>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <Nullable>enable</Nullable>
     <RootNamespace>RenderToolbox</RootNamespace>
@@ -12,12 +12,12 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="AutoUpdateViaGitHubRelease" Version="0.1.59" />
-    <PackageReference Include="HandyControls" Version="3.3.8.1" />
-    <PackageReference Include="Jot" Version="2.1.13" />
-    <PackageReference Include="OpenTK.GLWpfControl" Version="4.2.2" />
-    <PackageReference Include="System.Reactive" Version="5.0.0" />
-    <PackageReference Include="Zenseless.Patterns" Version="0.6.21" />
+    <PackageReference Include="AutoUpdateViaGitHubRelease" Version="0.1.64" />
+    <PackageReference Include="HandyControls" Version="3.4.5" />
+    <PackageReference Include="Jot" Version="2.1.17" />
+    <PackageReference Include="OpenTK.GLWpfControl" Version="4.3.2" />
+    <PackageReference Include="System.Reactive" Version="6.0.1" />
+    <PackageReference Include="Zenseless.Patterns" Version="0.6.35" />
     <PackageReference Include="Zenseless.RenderToolbox.PluginBase" Version="0.1.6" />
   </ItemGroup>
 

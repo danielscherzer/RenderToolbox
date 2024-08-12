@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <EnableDynamicLoading>true</EnableDynamicLoading>
@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenTK" Version="4.7.4" />
-    <PackageReference Include="Zenseless.Patterns" Version="0.6.21" />
+    <PackageReference Include="OpenTK" Version="4.8.2" />
+    <PackageReference Include="Zenseless.Patterns" Version="0.6.35" />
   </ItemGroup>
 
   <ItemGroup>

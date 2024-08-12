@@ -1,14 +1,12 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
-using System;
 using System.Drawing;
-using Zenseless.Patterns;
+using Zenseless.Patterns.Property;
 using Zenseless.RenderToolbox;
+using Line = System.Tuple<OpenTK.Mathematics.Vector2, OpenTK.Mathematics.Vector2>;
 
 namespace Triangle
 {
-	using Line = Tuple<Vector2, Vector2>;
-
 	/// Example class handling the rendering for OpenGL.
 	public class View : NotifyPropertyChanged, IPlugin
 	{

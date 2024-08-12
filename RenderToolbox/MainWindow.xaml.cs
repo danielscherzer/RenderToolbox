@@ -20,6 +20,7 @@ namespace RenderToolbox
 				MajorVersion = 4,
 				MinorVersion = 5,
 				GraphicsProfile = OpenTK.Windowing.Common.ContextProfile.Compatability,
+				GraphicsContextFlags = OpenTK.Windowing.Common.ContextFlags.Default
 			};
 			OpenTkControl.Start(settings);
 

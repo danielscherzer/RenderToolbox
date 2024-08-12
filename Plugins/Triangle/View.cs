@@ -3,7 +3,7 @@ using OpenTK.Mathematics;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using Zenseless.Patterns;
+using Zenseless.Patterns.Property;
 using Zenseless.RenderToolbox;
 
 namespace Triangle
@@ -26,7 +26,7 @@ namespace Triangle
 
 		public void Render(float frameTime)
 		{
-			Saturation = MathF.Sin((float)_stopwatch.Elapsed.TotalSeconds) * 0.25f + 0.5f;
+			Saturation = (MathF.Sin((float)_stopwatch.Elapsed.TotalSeconds) * 0.25f) + 0.5f;
 			var c = Color4.FromHsv(new Vector4(Hue / 10f, Saturation, 0.75f, 1));
 			GL.ClearColor(c);
 			GL.Clear(ClearBufferMask.ColorBufferBit);

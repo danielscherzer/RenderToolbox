@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Input;
-using Zenseless.Patterns;
+using Zenseless.Patterns.Property;
 using Zenseless.RenderToolbox;
 
 namespace RenderToolbox
